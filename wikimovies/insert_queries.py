@@ -83,4 +83,4 @@ INSERT INTO public.book(
 ) VALUES (%s, %s) ON CONFLICT (book_id) DO NOTHING;
 """
 
-insert_book_columns = ["book_id", "book_name"]
+insert_book_columns = ["book", "bookLabel"]
