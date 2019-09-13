@@ -123,17 +123,171 @@ GROUP BY ?occupation ?occupationLabel
 ORDER BY DESC (?humanC) DESC (?linkcountS)
 ````
 
-### MOVIES
+### PARTICIPANTS
 
 ```
-SELECT ?film ?filmLabel ?role ?roleLabel ?person WHERE {
-  ?film wdt:P31 wd:Q11424;
-    wdt:P57|wdt:P161|wdt:P162|wdt:P1431|wdt:P58|wdt:P344|wdt:P1040|wdt:P86|wdt:P2515|wdt:p2554|wdt:P170|wdt:P725 ?person.
- 
-  ?person ?role ?film.
+SELECT ?participant ?participantLabel WHERE {
+  ?occupation wdt:P31/wdt:P279* wd:Q12737077 .
+
   SERVICE wikibase:label {
      bd:serviceParam wikibase:language "en" .
   }
+}
+```
+
+### MOVIES
+
+All movies with name
+```
+SELECT ?film  ?filmLabel  WHERE {
+  ?film wdt:P31 wd:Q11424;
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+}
+```
+
+
+All movies with roles
+```
+SELECT ?film  ?role  ?person  WHERE {
+  ?film wdt:P31 wd:Q11424;
+    wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person.
+  ?film ?role ?person
+}
+```
+
+
+Roles in Movies
+```
+SELECT ?role ?realroleLabel WHERE {
+  VALUES ?role { wdt:P57 wdt:P58 wdt:P86 wdt:P161 wdt:P162 wdt:P170 wdt:P175 wdt:P344 wdt:P725 wdt:P1040 wdt:P1431 wdt:P2515 wdt:p2554 wdt:P14318 }  .
+   ?realrole wikibase:directClaim ?role
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+ }
+
+
+```
+
+### VIDEO SHOW
+
+Video shows with name
+```
+SELECT ?videoShow  ?videoShowLabel WHERE {
+  ?videoShow wdt:P31 wd:Q5398426;
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+}
+```
+
+
+Roles in VideoShow
+```
+SELECT ?videoShow  ?role  ?person  WHERE {
+   ?videoShow wdt:P31 wd:Q5398426;
+    wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person.
+  ?videoShow ?role ?person
+ }
+```
+
+
+### ANIMATED MOVIES
+
+Animated movies with name
+```
+SELECT ?animatedMovie  ?animatedMovieLabel WHERE {
+  ?animatedMovie wdt:P31 wd:Q202866;
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+}
+```
+
+
+Roles in Animated Movies
+```
+SELECT ?animatedMovie  ?role  ?person  WHERE {
+   ?animatedMovie wdt:P31 wd:Q5398426;
   
+    wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person.
+  ?animatedMovie  ?role ?person
+  
+}  
+```
+
+### SONGS
+
+Songs with Name
+```
+SELECT ?song  ?songLabel WHERE {
+  ?song wdt:P31/wdt:P279* wd:Q2188189;
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+}
+```
+
+
+Roles in songs
+
+```
+SELECT ?person  ?role  ?song  WHERE {
+ 
+  ?person wdt:P50|wdt:P86|wdt:P87|wdt:P170|wdt:P175|wdt:p676 ?song;
+          wdt:P31/wdt:P279* wd:Q2188189.
+  ?person ?role ?song.
+  
+}
+
+```
+
+
+### VIDEO_GAMES
+
+Video games with Name
+```
+SELECT ?videogame ?videogameLabel WHERE {
+  ?song wdt:P31/wdt:P279* wd:Q7889;
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+}
+```
+
+
+Roles in video games
+
+```
+SELECT ?person ?role ?videogame WHERE {
+  ?person wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?videogame;
+          wdt:P31/wdt:P279* wd:Q7889.
+  ?person ?role ?videogame.
+  
+}
+```
+
+### BOOKS
+
+Books with Name
+```
+SELECT ?book ?bookLabel WHERE {
+  ?song wdt:P31/wdt:P279* wd:Q571;
+  SERVICE wikibase:label {
+     bd:serviceParam wikibase:language "en" .
+  }
+}
+```
+
+
+Roles in books
+
+```
+SELECT ?person ?role ?book WHERE {
+  ?person wdt:P50|wdt:P98|wdt:P110|wdt:P170|wdt:P674 ?book;
+          wdt:P31/wdt:P279* wd:Q571.
+  ?person ?role ?book.
 }
 ```
