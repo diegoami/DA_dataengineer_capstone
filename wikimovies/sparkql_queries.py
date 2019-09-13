@@ -139,8 +139,8 @@ SELECT ?person ?role ?videogame WHERE {
 """
 
 books_sparkql = """
-SELECT ?videogame ?videogameLabel WHERE {
-  ?song wdt:P31/wdt:P279* wd:Q7889;
+SELECT ?book ?bookLabel WHERE {
+  ?book wdt:P31/wdt:P279* wd:Q571;
   SERVICE wikibase:label {
      bd:serviceParam wikibase:language "en" .
   }
@@ -148,10 +148,10 @@ SELECT ?videogame ?videogameLabel WHERE {
 """
 
 books_with_roles_sparkql = """
-SELECT ?person ?role ?videogame WHERE {
-  ?person wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?videogame;
-          wdt:P31/wdt:P279* wd:Q7889.
-  ?person ?role ?videogame.
+SELECT ?person ?role ?book WHERE {
+  ?person wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?book;
+          wdt:P31/wdt:P279* wd:Q571.
+  ?person ?role ?book.
 
 }
 """
