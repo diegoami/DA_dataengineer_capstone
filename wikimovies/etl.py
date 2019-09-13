@@ -14,9 +14,15 @@ def process_data(cur, query_name, sparkl_query, insert_query, insert_query_colum
     r = requests.get(WIKIDATA_URL, params={'format': 'json', 'query': sparkl_query})
     data = r.json(strict=False)
     file_output = os.path.join("json", f"{query_name}.json")
+    exp_output = os.path.join("json", f"{query_name}_exp.json")
+
     rel_data = [item for item in data['results']['bindings']]
+    exp_data = [{column: item[column]['value'] for column in insert_query_columns} for item in rel_data]
+
     with open(file_output, 'w', encoding="utf-8") as fhandle:
         json.dump(rel_data, fhandle)
+    with open(exp_output, 'w', encoding="utf-8") as ehandle:
+        json.dump(exp_data, ehandle)
     for item in rel_data:
         values_to_insert = [item[column]['value'] for column in insert_query_columns]
         print(values_to_insert)
