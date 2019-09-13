@@ -8,6 +8,7 @@ INSERT INTO public.occupations (
 """
 
 insert_occupation_columns = ["occupation", "occupationLabel"]
+map_occupation_columns = {"occupation": "occupation_id", "occupationLabel": "occupation_name"}
 
 
 insert_role =  """
@@ -18,7 +19,7 @@ INSERT INTO public.roles (
 """
 
 insert_role_columns = ["role", "realroleLabel"]
-
+map_role_columns = {"role": "role_id", "realroleLabel": "role_name" }
 
 insert_human = """
 INSERT INTO public.humans (
@@ -29,6 +30,7 @@ INSERT INTO public.humans (
 """
 
 insert_human_columns = ["human", "humanLabel", "occupation"]
+map_human_columns = {"human": "human_id", "humanLabel": "human_name", "occupation": "occupation_id"}
 
 insert_movie = """
 INSERT INTO public.movies (
@@ -38,6 +40,8 @@ INSERT INTO public.movies (
 """
 
 insert_movie_columns = ["film", "filmLabel"]
+map_movie_columns = {"film": "movie_id", "filmLabel": "movie_name"}
+
 
 insert_tvshow = """
 INSERT INTO public.tvshows (
@@ -47,6 +51,7 @@ INSERT INTO public.tvshows (
 """
 
 insert_tvshow_columns = ["tvShow", "tvShowLabel"]
+map_tvshow_columns = {"tvShow": "tvshow_id", "tvShowLabel": "tvshow_name"}
 
 insert_animatedmovie = """
 INSERT INTO public.animatedmovies (
@@ -56,6 +61,8 @@ INSERT INTO public.animatedmovies (
 """
 
 insert_animatedmovie_columns = ["animatedMovie", "animatedMovieLabel"]
+map_animatedmovie_columns = {"animatedMovie": "animatedmovie_id", "animatedMovieLabel": "animatedmovie_name"}
+
 
 insert_song = """
 INSERT INTO public.songs (
@@ -65,7 +72,7 @@ INSERT INTO public.songs (
 """
 
 insert_song_columns = ["song", "songLabel"]
-
+map_song_columns = {"song": "song_id", "songLabel": "song_name"}
 
 insert_videogame = """
 INSERT INTO public.videogames (
@@ -75,6 +82,7 @@ INSERT INTO public.videogames (
 """
 
 insert_videogame_columns = ["videogame", "videogameLabel"]
+map_videogame_columns = {"videogame": "videogame_id", "videogameLabel": "videogame_name"}
 
 insert_book = """
 INSERT INTO public.books (
@@ -84,3 +92,4 @@ INSERT INTO public.books (
 """
 
 insert_book_columns = ["book", "bookLabel"]
+map_book_columns = {"book": "book_id", "bookLabel": "book_name"}
