@@ -291,3 +291,14 @@ SELECT ?person ?role ?book WHERE {
   ?person ?role ?book.
 }
 ```
+
+# SET UP DATABASE
+
+```
+CREATE DATABASE wikidata;
+create user wikidata with encrypted password 'wikidata';
+grant all privileges on database wikidata to wikidata;
+
+\connect wikidata;
+\i create_table.sql;
+```

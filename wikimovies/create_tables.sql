@@ -2,6 +2,7 @@ CREATE TABLE  public.occupations (
 	occupation_id varchar(256) NOT NULL,
 	occupation_name varchar(256)
 );
+GRANT ALL PRIVILEGES ON TABLE occupations TO wikidata;
 
 CREATE TABLE  public.humans (
 	human_id varchar(256) NOT NULL,
