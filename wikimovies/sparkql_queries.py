@@ -122,7 +122,7 @@ SELECT ?person  ?role  ?song WHERE {
 
 videogames_sparkql = """
 SELECT ?videogame ?videogameLabel WHERE {
-  ?song wdt:P31/wdt:P279* wd:Q7889;
+  ?videogame wdt:P31/wdt:P279* wd:Q7889;
   SERVICE wikibase:label {
      bd:serviceParam wikibase:language "en" .
   }
