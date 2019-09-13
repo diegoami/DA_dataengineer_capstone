@@ -77,7 +77,7 @@ INSERT INTO public.videogames (
 insert_videogame_columns = ["videogame", "videogameLabel"]
 
 insert_book = """
-INSERT INTO public.book(
+INSERT INTO public.books (
 	book_id,
 	book_name
 ) VALUES (%s, %s) ON CONFLICT (book_id) DO NOTHING;
