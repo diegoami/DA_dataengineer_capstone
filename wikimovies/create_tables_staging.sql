@@ -3,7 +3,7 @@
 -- CREATE USER wikidata WITH ENCRYPTED PASSWORD 'wikidata';
 -- GRANT ALL PRIVILEGES on DATABASE wikidata TO wikidata
 -- \connect wikidata
--- \i create_tables.sql
+-- \i create_tables_staging.sql
 --\set autocommit off
 
 
@@ -119,6 +119,7 @@ CREATE TABLE public.book_roles (
     PRIMARY KEY(book_id, role_id, human_id)
 );
 GRANT ALL PRIVILEGES ON TABLE book_roles  TO wikidata;
+
 
 COMMIT;
 

@@ -1,9 +1,10 @@
-import psycopg2
 import requests
 import os
 import json
 import csv
 import traceback
+
+
 from wikimovies import sparkql_queries
 from wikimovies import insert_queries
 
@@ -80,23 +81,6 @@ def insert_records(cur, insert_query, insert_query_columns, rel_data, table_name
 
     print("Finished inserting {}".format(table_name))
 
-def main():
-    conn = psycopg2.connect("host=127.0.0.1 dbname=wikidata user=wikidata password=wikidata")
-    cur = conn.cursor()
-
-#    insert_humans_staging(cur)
-
-#   insert_roles_staging(cur)
-
-#    insert_entities_staging(cur)
-
-    insert_relations_staging(cur)
-
-    process_data(cur, "book_roles", sparkql_queries.book_roles_sparkql,
-                 insert_queries.insert_book_role,
-                 insert_queries.map_book_role_columns)
-    conn.close()
-
 
 def insert_relations_staging(cur):
     process_data(cur, "movie_roles", sparkql_queries.movies_roles_sparkql, insert_queries.insert_movie_role,
@@ -111,6 +95,9 @@ def insert_relations_staging(cur):
     process_data(cur, "videogame_roles", sparkql_queries.videogame_roles_sparkql,
                  insert_queries.insert_videogame_role,
                  insert_queries.map_videogame_role_columns)
+    process_data(cur, "book_roles", sparkql_queries.book_roles_sparkql,
+                 insert_queries.insert_book_role,
+                 insert_queries.map_book_role_columns)
 
 
 def insert_entities_staging(cur):
@@ -139,4 +126,3 @@ def insert_humans_staging(cur):
                      insert_queries.map_human_columns, year=year)
 
 
-main()
