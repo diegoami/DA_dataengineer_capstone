@@ -6,18 +6,11 @@
 -- \i create_tables.sql
 --\set autocommit off
 
-DROP TABLE public.occupations;
-CREATE TABLE public.occupations (
-	occupation_id varchar(256) PRIMARY KEY,
-	occupation_name varchar(256) NOT NULL
-);
-GRANT ALL PRIVILEGES ON TABLE occupations TO wikidata;
 
 DROP TABLE public.humans;
 CREATE TABLE IF NOT EXISTS  public.humans (
 	human_id varchar(256) PRIMARY KEY,
-	human_name varchar(256) NOT NULL,
-	occupation_id varchar(256) NOT NULL
+	human_name varchar(256) NOT NULL
 );
 GRANT ALL PRIVILEGES ON TABLE humans TO wikidata;
 

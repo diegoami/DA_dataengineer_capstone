@@ -24,13 +24,12 @@ map_role_columns = {"role": "role_id", "realroleLabel": "role_name" }
 insert_human = """
 INSERT INTO public.humans (
 	human_id,
-	human_name,
-	occupation_id
-) VALUES (%s, %s, %s) ON CONFLICT (human_id) DO NOTHING;
+	human_name
+) VALUES (%s, %s) ON CONFLICT (human_id) DO NOTHING;
 """
 
-insert_human_columns = ["human", "humanLabel", "occupation"]
-map_human_columns = {"human": "human_id", "humanLabel": "human_name", "occupation": "occupation_id"}
+insert_human_columns = ["human", "humanLabel"]
+map_human_columns = {"human": "human_id", "humanLabel": "human_name"}
 
 insert_movie = """
 INSERT INTO public.movies (

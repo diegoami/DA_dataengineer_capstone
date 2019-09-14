@@ -12,10 +12,14 @@ WIKIDATA_URL = 'https://query.wikidata.org/sparql'
 
 
 
-def process_data(cur, table_name, sparkl_query, insert_query, map_query_columns, fetchIfPresent=True):
+def process_data(cur, table_name, sparkl_query, insert_query, map_query_columns, fetchIfPresent=False, year=None):
     insert_query_columns = map_query_columns.keys()
-    file_output = os.path.join("json", f"{table_name}.json")
-    exp_output = os.path.join("json", f"{table_name}_exp.csv")
+    base_file_name = "{}_{}".format(table_name, year) if year else table_name
+    sparkl_query = sparkl_query.format(year, year+1) if year else sparkl_query
+    print(sparkl_query)
+
+    file_output = os.path.join("json", f"{base_file_name}.json")
+    exp_output = os.path.join("json", f"{base_file_name}_exp.csv")
     if os.path.isfile(file_output) and not fetchIfPresent:
         with open(file_output, 'r', encoding="utf-8") as fhandle:
             rel_data = json.load(fhandle)
@@ -27,8 +31,10 @@ def process_data(cur, table_name, sparkl_query, insert_query, map_query_columns,
         rel_data = [item for item in data['results']['bindings']]
     exp_data = [{map_query_columns[column]: item[column]['value'] for column in insert_query_columns} for item in rel_data]
     with open(file_output, 'w', encoding="utf-8") as fhandle:
+        print("Writing to {}".format(file_output))
         json.dump(rel_data, fhandle)
     with open(exp_output, 'w', encoding="utf-8") as ehandle:
+        print("Writing to {}".format(exp_output))
 
         f = csv.writer(ehandle)
 
@@ -66,15 +72,20 @@ def main():
     conn = psycopg2.connect("host=127.0.0.1 dbname=wikidata user=wikidata password=wikidata")
     cur = conn.cursor()
 
-    process_data(cur, "occupations", sparkql_queries.occupations_sparkql, insert_queries.insert_occupation, insert_queries.map_occupation_columns, False )
+    for year in range(1880, 2020):
 
-    process_data(cur, "roles", sparkql_queries.roles_sparkql, insert_queries.insert_role, insert_queries.map_role_columns, False)
+        process_data(cur, "humans", sparkql_queries.humans_byyear_sparkql, insert_queries.insert_human,
+                     insert_queries.map_human_columns, year=year)
 
-    process_data(cur, "movies", sparkql_queries.movies_sparkql, insert_queries.insert_movie, insert_queries.map_movie_columns, False)
+    process_data(cur, "occupations", sparkql_queries.occupations_sparkql, insert_queries.insert_occupation, insert_queries.map_occupation_columns)
 
-    process_data(cur, "tvshows", sparkql_queries.tvshows_sparkql, insert_queries.insert_tvshow, insert_queries.map_tvshow_columns, False)
+    process_data(cur, "roles", sparkql_queries.roles_sparkql, insert_queries.insert_role, insert_queries.map_role_columns)
 
-    process_data(cur, "animatedmovies", sparkql_queries.animatedmovies_sparkql, insert_queries.insert_animatedmovie, insert_queries.map_animatedmovie_columns, False)
+    process_data(cur, "movies", sparkql_queries.movies_sparkql, insert_queries.insert_movie, insert_queries.map_movie_columns)
+
+    process_data(cur, "tvshows", sparkql_queries.tvshows_sparkql, insert_queries.insert_tvshow, insert_queries.map_tvshow_columns)
+
+    process_data(cur, "animatedmovies", sparkql_queries.animatedmovies_sparkql, insert_queries.insert_animatedmovie, insert_queries.map_animatedmovie_columns)
 
     process_data(cur, "videogames", sparkql_queries.videogames_sparkql, insert_queries.insert_videogame,
                  insert_queries.map_videogame_columns, False)
