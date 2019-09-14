@@ -92,3 +92,74 @@ INSERT INTO public.books (
 
 insert_book_columns = ["book", "bookLabel"]
 map_book_columns = {"book": "book_id", "bookLabel": "book_name"}
+
+
+insert_movie_role = """
+INSERT INTO public.movie_roles (
+	movie_id,
+	role_id,
+	human_id
+) VALUES (%s, %s, %S) ON CONFLICT (movie_id, role_id, human_id) DO NOTHING;
+"""
+
+insert_movie_role_columns = ["film", "role", "person"]
+map_movie_role_columns = {"film": "movie_id", "role": "role_id", "person": "human_id"}
+
+
+insert_tvshow_role = """
+INSERT INTO public.movie_roles (
+	tvshow_id,
+	role_id,
+	human_id
+) VALUES (%s, %s, %S) ON CONFLICT (tvshow_id, role_id, human_id) DO NOTHING;
+"""
+
+insert_tvshow_role_columns = ["tvshow", "role", "person"]
+map_tvshow_role_columns = {"tvshow": "tvshow_id", "role": "role_id", "person": "human_id"}
+
+
+insert_animatedmovie_role = """
+INSERT INTO public.animatedmovie_roles (
+	animatedmovie_id,
+	role_id,
+	human_id
+) VALUES (%s, %s, %S) ON CONFLICT (animatedmovie_id, role_id, human_id) DO NOTHING;
+"""
+
+insert_animatedmovie_role_columns = ["animatedmovie", "role", "person"]
+map_animatedmovie_role_columns = {"animatedmovie": "animatedmovie_id", "role": "role_id", "person": "human_id"}
+
+
+insert_song_role = """
+INSERT INTO public.song_roles (
+	song_id,
+	role_id,
+	human_id
+) VALUES (%s, %s, %S) ON CONFLICT (song_id, role_id, human_id) DO NOTHING;
+"""
+
+insert_song_role_columns = ["song", "role", "person"]
+map_song_role_columns = {"song": "song_id", "role": "role_id", "person": "human_id"}
+
+insert_videogame_role = """
+INSERT INTO public.videogame_roles (
+	videogame_id,
+	role_id,
+	human_id
+) VALUES (%s, %s, %S) ON CONFLICT (videogame_id, role_id, human_id) DO NOTHING;
+"""
+
+insert_videogame_role_columns = ["videogame", "role", "person"]
+map_videogame_role_columns = {"videogame": "videogame_id", "role": "role_id", "person": "human_id"}
+
+
+insert_book_role = """
+INSERT INTO public.book_roles (
+	book_id,
+	role_id,
+	human_id
+) VALUES (%s, %s, %S) ON CONFLICT (book_id, role_id, human_id) DO NOTHING;
+"""
+
+insert_book_role_columns = ["book", "role", "person"]
+map_book_role_columns = {"book": "book_id", "role": "role_id", "person": "human_id"}

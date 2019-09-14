@@ -17,7 +17,7 @@ SELECT ?human ?humanLabel WHERE {{
      wdt:P569 ?born .
   FILTER (?born >="{}-01-01"^^xsd:dateTime && ?born < "{}-01-01"^^xsd:dateTime) .
   FILTER (?occupation not in  ( wd:Q937857, wd:Q1650915, wd:Q3665646, wd:Q11774891, wd:Q11513337, wd:Q2309784, wd:Q2066131, wd:Q19204627, wd:Q14089670, wd:Q12299841, wd:Q10871364, wd:Q15117302, wd:Q13141064, wd:Q13365117,  wd:Q10873124) ) . 
-  OPTIONAL { ?human wdt:P106 ?occupation } 
+  OPTIONAL {{ ?human wdt:P106 ?occupation }} 
   SERVICE wikibase:label {{
      bd:serviceParam wikibase:language "en" .
   }}
@@ -55,7 +55,7 @@ movies_sparkql = """
 
 """
 
-movies_with_roles_sparkql = """
+movies_roles_sparkql = """
     SELECT ?film  ?role  ?person  WHERE {
       ?film wdt:P31 wd:Q11424;
         wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318 ?person.
@@ -73,7 +73,7 @@ tvshows_sparkql = """
 }
 """
 
-tvshows_with_roles_sparkql = """
+tvshow_roles_sparkql = """
 SELECT ?tvShow  ?role  ?person  WHERE {
    ?tvShow wdt:P31 wd:Q5398426;
     wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person.
@@ -91,7 +91,7 @@ SELECT ?animatedMovie  ?animatedMovieLabel WHERE {
 }
 """
 
-animatedmovies_with_roles_sparkql = """
+animatedmovie_roles_sparkql = """
 SELECT ?animatedMovie  ?role  ?person  WHERE {
    ?animatedMovie wdt:P31 wd:Q5398426;
   
@@ -110,8 +110,8 @@ SELECT ?song  ?songLabel WHERE {
 }
 """
 
-songs_with_roles_sparkql = """
-SELECT ?person  ?role  ?song WHERE {
+song_roles_sparkql = """
+SELECT ?song   ?role  ?person WHERE {
   ?person wdt:P50|wdt:P86|wdt:P87|wdt:P170|wdt:P175|wdt:p676 ?song;
           wdt:P31/wdt:P279* wd:Q2188189.
   ?person ?role ?song.
@@ -127,8 +127,8 @@ SELECT ?videogame ?videogameLabel WHERE {
 }
 """
 
-videogames_with_roles_sparkql = """
-SELECT ?person ?role ?videogame WHERE {
+videogame_roles_sparkql = """
+SELECT ?videogame ?role  ?person WHERE {
   ?person wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?videogame;
           wdt:P31/wdt:P279* wd:Q7889.
   ?person ?role ?videogame.
@@ -145,8 +145,8 @@ SELECT ?book ?bookLabel WHERE {
 }
 """
 
-books_with_roles_sparkql = """
-SELECT ?person ?role ?book WHERE {
+book_roles_sparkql = """
+SELECT ?book ?role  ?person WHERE {
   ?person wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?book;
           wdt:P31/wdt:P279* wd:Q571.
   ?person ?role ?book.

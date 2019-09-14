@@ -16,15 +16,16 @@ def process_data(cur, table_name, sparkl_query, insert_query, map_query_columns,
     insert_query_columns = map_query_columns.keys()
     base_file_name = "{}_{}".format(table_name, year) if year else table_name
     sparkl_query = sparkl_query.format(year, year+1) if year else sparkl_query
-    print(sparkl_query)
+
 
     file_output = os.path.join("json", f"{base_file_name}.json")
     exp_output = os.path.join("json", f"{base_file_name}_exp.csv")
     if os.path.isfile(file_output) and not fetchIfPresent:
+        print("Reading data from file {}".format(file_output))
         with open(file_output, 'r', encoding="utf-8") as fhandle:
             rel_data = json.load(fhandle)
     else:
-
+        print("Executing query in Sparkql: {}".format(sparkl_query))
         r = requests.get(WIKIDATA_URL, params={'format': 'json', 'query': sparkl_query})
         data = r.json(strict=False)
 
@@ -88,12 +89,31 @@ def main():
     process_data(cur, "animatedmovies", sparkql_queries.animatedmovies_sparkql, insert_queries.insert_animatedmovie, insert_queries.map_animatedmovie_columns)
 
     process_data(cur, "videogames", sparkql_queries.videogames_sparkql, insert_queries.insert_videogame,
-                 insert_queries.map_videogame_columns, False)
+                 insert_queries.map_videogame_columns)
 
     process_data(cur, "books", sparkql_queries.books_sparkql, insert_queries.insert_book,
-                 insert_queries.map_book_columns, False)
+                 insert_queries.map_book_columns)
+
+    process_data(cur, "movie_roles", sparkql_queries.movie_roles_sparkql, insert_queries.insert_movie_role,
+                 insert_queries.map_movie_role_columns)
+
+    process_data(cur, "tvshow_roles", sparkql_queries.tvshow_roles_sparkql, insert_queries.insert_tvshow_role,
+                 insert_queries.map_tvshow_role_columns)
+
+    process_data(cur, "song_roles", sparkql_queries.song_roles_sparkql, insert_queries.insert_song_role,
+                 insert_queries.map_animatedmovie_song_columns)
+
+    process_data(cur, "animatedmovie_roles", sparkql_queries.animatedmovie_roles_sparkql, insert_queries.insert_animatedmovie_role,
+                 insert_queries.map_animatedmovie_role_columns)
+
+    process_data(cur, "videogame_roles", sparkql_queries.videogame_roles_sparkql,
+                 insert_queries.insert_videogame_role,
+                 insert_queries.map_videogame_role_columns)
 
 
+    process_data(cur, "book_roles", sparkql_queries.book_roles_sparkql,
+                 insert_queries.insert_book_role,
+                 insert_queries.map_book_role_columns)
     conn.close()
 
 
