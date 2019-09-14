@@ -1,9 +1,10 @@
 
 -- CREATE DATABASE wikidata;
 -- CREATE USER wikidata WITH ENCRYPTED PASSWORD 'wikidata';
--- GRANT ALL PRIVILEGES on DATABASE wikidata TO wikidata;
+-- GRANT ALL PRIVILEGES on DATABASE wikidata TO wikidata
 -- \connect wikidata
 -- \i create_tables.sql
+--\set autocommit off
 
 DROP TABLE public.occupations;
 CREATE TABLE public.occupations (
