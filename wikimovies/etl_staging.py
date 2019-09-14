@@ -88,7 +88,7 @@ def insert_relations_staging(cur):
     process_data(cur, "tvshow_roles", sparkql_queries.tvshow_roles_sparkql, insert_queries.insert_tvshow_role,
                  insert_queries.map_tvshow_role_columns)
     process_data(cur, "song_roles", sparkql_queries.song_roles_sparkql, insert_queries.insert_song_role,
-                 insert_queries.map_animatedmovie_song_columns)
+                 insert_queries.map_song_role_columns)
     process_data(cur, "animatedmovie_roles", sparkql_queries.animatedmovie_roles_sparkql,
                  insert_queries.insert_animatedmovie_role,
                  insert_queries.map_animatedmovie_role_columns)
