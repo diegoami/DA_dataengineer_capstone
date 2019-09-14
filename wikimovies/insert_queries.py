@@ -107,15 +107,15 @@ map_movie_role_columns = {"film": "movie_id", "role": "role_id", "person": "huma
 
 
 insert_tvshow_role = """
-INSERT INTO public.movie_roles (
+INSERT INTO public.tvshow_roles (
 	tvshow_id,
 	role_id,
 	human_id
 ) VALUES (%s, %s, %s) ON CONFLICT (tvshow_id, role_id, human_id) DO NOTHING;
 """
 
-insert_tvshow_role_columns = ["tvshow", "role", "person"]
-map_tvshow_role_columns = {"tvshow": "tvshow_id", "role": "role_id", "person": "human_id"}
+insert_tvshow_role_columns = ["tvShow", "role", "person"]
+map_tvshow_role_columns = {"tvShow": "tvshow_id", "role": "role_id", "person": "human_id"}
 
 
 insert_animatedmovie_role = """
@@ -126,8 +126,8 @@ INSERT INTO public.animatedmovie_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (animatedmovie_id, role_id, human_id) DO NOTHING;
 """
 
-insert_animatedmovie_role_columns = ["animatedmovie", "role", "person"]
-map_animatedmovie_role_columns = {"animatedmovie": "animatedmovie_id", "role": "role_id", "person": "human_id"}
+insert_animatedmovie_role_columns = ["animatedMovie", "role", "person"]
+map_animatedmovie_role_columns = {"animatedMovie": "animatedmovie_id", "role": "role_id", "person": "human_id"}
 
 
 insert_song_role = """
