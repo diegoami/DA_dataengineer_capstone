@@ -17,6 +17,7 @@ SELECT ?human ?humanLabel WHERE {{
      wdt:P569 ?born .
   FILTER (?born >="{}-01-01"^^xsd:dateTime && ?born < "{}-01-01"^^xsd:dateTime) .
   FILTER (?occupation not in  ( wd:Q937857, wd:Q1650915, wd:Q3665646, wd:Q11774891, wd:Q11513337, wd:Q2309784, wd:Q2066131, wd:Q19204627, wd:Q14089670, wd:Q12299841, wd:Q10871364, wd:Q15117302, wd:Q13141064, wd:Q13365117,  wd:Q10873124) ) . 
+  OPTIONAL { ?human wdt:P106 ?occupation } 
   SERVICE wikibase:label {{
      bd:serviceParam wikibase:language "en" .
   }}
