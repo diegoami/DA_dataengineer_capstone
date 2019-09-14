@@ -99,7 +99,7 @@ INSERT INTO public.movie_roles (
 	movie_id,
 	role_id,
 	human_id
-) VALUES (%s, %s, %S) ON CONFLICT (movie_id, role_id, human_id) DO NOTHING;
+) VALUES (%s, %s, %s) ON CONFLICT (movie_id, role_id, human_id) DO NOTHING;
 """
 
 insert_movie_role_columns = ["film", "role", "person"]
@@ -111,7 +111,7 @@ INSERT INTO public.movie_roles (
 	tvshow_id,
 	role_id,
 	human_id
-) VALUES (%s, %s, %S) ON CONFLICT (tvshow_id, role_id, human_id) DO NOTHING;
+) VALUES (%s, %s, %s) ON CONFLICT (tvshow_id, role_id, human_id) DO NOTHING;
 """
 
 insert_tvshow_role_columns = ["tvshow", "role", "person"]
@@ -123,7 +123,7 @@ INSERT INTO public.animatedmovie_roles (
 	animatedmovie_id,
 	role_id,
 	human_id
-) VALUES (%s, %s, %S) ON CONFLICT (animatedmovie_id, role_id, human_id) DO NOTHING;
+) VALUES (%s, %s, %s) ON CONFLICT (animatedmovie_id, role_id, human_id) DO NOTHING;
 """
 
 insert_animatedmovie_role_columns = ["animatedmovie", "role", "person"]
@@ -135,7 +135,7 @@ INSERT INTO public.song_roles (
 	song_id,
 	role_id,
 	human_id
-) VALUES (%s, %s, %S) ON CONFLICT (song_id, role_id, human_id) DO NOTHING;
+) VALUES (%s, %s, %s) ON CONFLICT (song_id, role_id, human_id) DO NOTHING;
 """
 
 insert_song_role_columns = ["song", "role", "person"]
@@ -146,7 +146,7 @@ INSERT INTO public.videogame_roles (
 	videogame_id,
 	role_id,
 	human_id
-) VALUES (%s, %s, %S) ON CONFLICT (videogame_id, role_id, human_id) DO NOTHING;
+) VALUES (%s, %s, %s) ON CONFLICT (videogame_id, role_id, human_id) DO NOTHING;
 """
 
 insert_videogame_role_columns = ["videogame", "role", "person"]
@@ -158,7 +158,7 @@ INSERT INTO public.book_roles (
 	book_id,
 	role_id,
 	human_id
-) VALUES (%s, %s, %S) ON CONFLICT (book_id, role_id, human_id) DO NOTHING;
+) VALUES (%s, %s, %s) ON CONFLICT (book_id, role_id, human_id) DO NOTHING;
 """
 
 insert_book_role_columns = ["book", "role", "person"]
