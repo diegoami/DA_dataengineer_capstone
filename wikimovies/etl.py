@@ -5,8 +5,8 @@ import csv
 import traceback
 
 
-from wikimovies import sparkql_queries
-from wikimovies import staging_queries
+from wikimovies.sparkql_queries import *
+from wikimovies.staging_queries import *
 from wikimovies import load_queries
 
 
@@ -83,64 +83,66 @@ def insert_records(cur, insert_query, insert_query_columns, rel_data, table_name
 
 
 def insert_relations_staging(cur, conn):
-    with sparkql_queries as squ:
-        process_data(cur, "movie_roles", squ.movies_roles_sparkql, squ.insert_movie_role,
-                     squ.map_movie_role_columns)
-        conn.commit()
-        process_data(cur, "tvshow_roles", squ.tvshow_roles_sparkql, squ.insert_tvshow_role,
-                     squ.map_tvshow_role_columns)
-        conn.commit()
-        process_data(cur, "song_roles", squ.song_roles_sparkql, squ.insert_song_role,
-                     squ.map_song_role_columns)
-        conn.commit()
-        process_data(cur, "animatedmovie_roles", squ.animatedmovie_roles_sparkql,
-                     squ.movie_role,
-                     squ.map_animatedmovie_role_columns)
-        conn.commit()
-        process_data(cur, "videogame_roles", squ.videogame_roles_sparkql,
-                     squ.insert_videogame_role,
-                     squ.map_videogame_role_columns)
 
-        conn.commit()
-        process_data(cur, "book_roles", squ.book_roles_sparkql,
-                     squ.insert_book_role,
-                     squ.map_book_role_columns)
-        conn.commit()
+    process_data(cur, "movie_roles", movies_roles_sparkql, insert_movie_role,
+                 map_movie_role_columns)
+    conn.commit()
+    process_data(cur, "tvshow_roles", tvshow_roles_sparkql, insert_tvshow_role,
+                 map_tvshow_role_columns)
+    conn.commit()
+    process_data(cur, "song_roles", song_roles_sparkql, insert_song_role,
+                 map_song_role_columns)
+    conn.commit()
+    process_data(cur, "animatedmovie_roles", animatedmovie_roles_sparkql,
+                 insert_animatedmovie_role,
+                 map_animatedmovie_role_columns)
+    conn.commit()
+    process_data(cur, "videogame_roles", videogame_roles_sparkql,
+                 insert_videogame_role,
+                 map_videogame_role_columns)
+
+    conn.commit()
+    process_data(cur, "book_roles", book_roles_sparkql,
+                 insert_book_role,
+                 map_book_role_columns)
+    conn.commit()
 
 def insert_entities_staging(cur, conn):
-    with sparkql_queries as squ:
-        process_data(cur, "movies", sparkql_queries.movies_sparkql, staging_queries.insert_movie,
-                     staging_queries.map_movie_columns)
-        conn.commit()
-        process_data(cur, "tvshows", sparkql_queries.tvshows_sparkql, staging_queries.insert_tvshow,
-                     staging_queries.map_tvshow_columns)
-        conn.commit()
-        process_data(cur, "animatedmovies", sparkql_queries.animatedmovies_sparkql, staging_queries.insert_animatedmovie,
-                     staging_queries.map_animatedmovie_columns)
-        process_data(cur, "videogames", sparkql_queries.videogames_sparkql, staging_queries.insert_videogame,
-                     staging_queries.map_videogame_columns)
-        conn.commit()
-        process_data(cur, "books", sparkql_queries.books_sparkql, staging_queries.insert_book,
-                     staging_queries.map_book_columns)
-        conn.commit()
+    process_data(cur, "movies", movies_sparkql, insert_movie,
+                 map_movie_columns)
+    conn.commit()
+    process_data(cur, "tvshows", tvshows_sparkql, insert_tvshow,
+                 map_tvshow_columns)
+    conn.commit()
+    process_data(cur, "animatedmovies", animatedmovies_sparkql, insert_animatedmovie,
+                 map_animatedmovie_columns)
+    process_data(cur, "videogames", videogames_sparkql, insert_videogame,
+                 map_videogame_columns)
+    conn.commit()
+    process_data(cur, "books", books_sparkql, insert_book,
+                 map_book_columns)
+    conn.commit()
 
 def insert_roles_staging(cur, conn):
 
-    process_data(cur, "roles", sparkql_queries.roles_sparkql, staging_queries.insert_role,
-                 staging_queries.map_role_columns)
+    process_data(cur, "roles", roles_sparkql, insert_role,
+                 map_role_columns)
     conn.commit()
 
 def insert_humans_staging(cur, conn):
     for year in range(1880, 2020):
-        process_data(cur, "humans", sparkql_queries.humans_byyear_sparkql, staging_queries.insert_human,
-                     staging_queries.map_human_columns, year=year)
+        process_data(cur, "humans", humans_byyear_sparkql, insert_human,
+                     map_human_columns, year=year)
         conn.commit()
 
 
 
 def load_tables(cur, conn):
+    print("Loading the creative works table")
     cur.execute(load_queries.insert_creative_works)
     conn.commit()
+
+    print("Loading the participations table")
 
     cur.execute(load_queries.insert_participations)
     conn.commit()
