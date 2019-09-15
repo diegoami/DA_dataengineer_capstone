@@ -7,6 +7,7 @@
 --\set autocommit off
 
 
+
 DROP TABLE public.humans;
 CREATE TABLE IF NOT EXISTS  public.humans (
 	human_id varchar(256) PRIMARY KEY,
