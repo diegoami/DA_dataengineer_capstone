@@ -1,30 +1,19 @@
 import requests
 import os
 import json
-import csv
-import traceback
-
 
 from wikimovies.sparkql_queries import *
 from wikimovies.staging_queries import *
 from wikimovies import load_queries
-
+from wikimovies.text_file import export_to_csv, try_read_data_from_json_file
 
 WIKIDATA_URL = 'https://query.wikidata.org/sparql'
 
 
-def export_to_csv(exp_data, exp_output, map_query_columns):
-    with open(exp_output, 'w', encoding="utf-8") as ehandle:
-        print("Writing to {}".format(exp_output))
-
-        f = csv.writer(ehandle)
-
-        f.writerow(map_query_columns.values())
-        for item in exp_data:
-            f.writerow(item.values())
-
-
-class DataProcessor:
+class ETLProcessor:
+    """
+    class encapsulating the ETL processing logic
+    """
 
     def __init__(self, cur, conn, config):
         self.cur = cur
@@ -38,15 +27,8 @@ class DataProcessor:
 
         file_output = os.path.join("json", f"{base_file_name}.json")
         exp_output = os.path.join("json", f"{base_file_name}_exp.csv")
-        rel_data = None
-        if os.path.isfile(file_output):
-            print("Reading data from file {}".format(file_output))
-            with open(file_output, 'r', encoding="utf-8") as fhandle:
-                try:
-                    rel_data = json.load(fhandle)
-                except ValueError as ve:
-                    print("Could not read data from file {}".format(file_output))
-                    traceback.print_exc(ve)
+        if self.config['ETL']['READ_JSON']:
+            rel_data = try_read_data_from_json_file(file_output)
 
         if not rel_data:
             print("Executing query in Sparkql: {}".format(sparkl_query))
@@ -54,12 +36,13 @@ class DataProcessor:
             data = r.json(strict=False)
 
             rel_data = [item for item in data['results']['bindings']]
-            with open(file_output, 'w', encoding="utf-8") as fhandle:
-                print("Writing to {}".format(file_output))
-                json.dump(rel_data, fhandle)
-
-        exp_data = [{map_query_columns[column]: item[column]['value'] for column in insert_query_columns} for item in rel_data]
-        export_to_csv(exp_data, exp_output, map_query_columns)
+            if self.config['ETL']['WRITE_JSON']:
+                with open(file_output, 'w', encoding="utf-8") as fhandle:
+                    print("Writing to {}".format(file_output))
+                    json.dump(rel_data, fhandle)
+        if self.config['ETL']['WRITE_CSV']:
+            exp_data = [{map_query_columns[column]: item[column]['value'] for column in insert_query_columns} for item in rel_data]
+            export_to_csv(exp_data, exp_output, map_query_columns)
 
         self.insert_records(insert_query, insert_query_columns, rel_data, table_name)
 
@@ -67,9 +50,7 @@ class DataProcessor:
 
 
 
-
     def insert_records(self, insert_query, insert_query_columns, rel_data, table_name):
-
         print("Inserting {} rows into  {}".format(len(rel_data), table_name))
         for index, item in enumerate(rel_data):
             values_to_insert = [item[column]['value'] for column in insert_query_columns]
@@ -79,7 +60,7 @@ class DataProcessor:
                 print("Could not execute query : {} with values".format(insert_query, values_to_insert))
                 raise ve
 
-            if index % 100 == 0:
+            if index % 1000 == 0:
                 print("Inserted {} rows".format(index))
 
         print("Finished inserting {}".format(table_name))
