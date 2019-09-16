@@ -84,7 +84,7 @@ SELECT ?tvShow  ?role  ?person  WHERE {
 
 animatedmovies_sparkql = """
 SELECT ?animatedMovie  ?animatedMovieLabel WHERE {
-  ?animatedMovie wdt:P31 wd:Q202866;
+  ?animatedMovie wdt:P31/wdt:P279* wd:Q202866;
   SERVICE wikibase:label {
      bd:serviceParam wikibase:language "en" .
   }
@@ -93,7 +93,7 @@ SELECT ?animatedMovie  ?animatedMovieLabel WHERE {
 
 animatedmovie_roles_sparkql = """
 SELECT ?animatedMovie  ?role  ?person  WHERE {
-   ?animatedMovie wdt:P31 wd:Q5398426;
+   ?animatedMovie wdt:P31/wdt:P279* wd:Q202866;
   
     wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person.
   ?animatedMovie  ?role ?person
@@ -134,16 +134,23 @@ SELECT ?videogame ?videogameLabel WHERE {
 
 videogame_roles_sparkql = """
 SELECT ?videogame ?role  ?person WHERE {
-  ?videogame wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?person;
-          wdt:P31/wdt:P279* wd:Q7889.
-  ?videogame ?role ?person.
-  
+  ?videogame wdt:P31/wdt:P279* wd:Q7889.
+  {?videogame wdt:P674 ?character.
+  ?character wdt:P725 ?person.
+    ?character ?role ?person.
+   }
+  UNION 
+  {?videogame wdt:P725 ?person.
+    ?videogame ?role ?person.
+   }
 }
 """
 
 books_sparkql = """
 SELECT ?book ?bookLabel WHERE {
-  ?book wdt:P31/wdt:P279* wd:Q571;
+  {?book wdt:P31/wdt:P279* wd:Q571}
+  UNION
+  {?book wdt:P31/wdt:P279* wd:Q8261}
   SERVICE wikibase:label {
      bd:serviceParam wikibase:language "en" .
   }
@@ -152,8 +159,11 @@ SELECT ?book ?bookLabel WHERE {
 
 book_roles_sparkql = """
 SELECT ?book ?role  ?person WHERE {
-  ?book wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?person;
-          wdt:P31/wdt:P279* wd:Q571.
+  {?book wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?person;
+          wdt:P31/wdt:P279* wd:Q571}
+  UNION
+  {?book wdt:P50|wdt:P86|wdt:P87|wdt:P162|wdt:P170|wdt:P175|wdt:P287|wdt:p676|wdt:P943 ?person;
+          wdt:P31/wdt:P279* wd:Q8261}.
   ?book ?role ?person.
 
 }
