@@ -1,8 +1,6 @@
 # DA_dataengineer_capstone
 
-## DATA SOURCE
-
-
+## BACKGROUND
 
 The data is retrieved from wikidata using SPARQL in the first steps of the pipeline.
 We retrieve information about 
@@ -16,17 +14,20 @@ and these type of creative works
 * Animated movies
 * Tv shows
 * Video games
-* songs 
+* Songs 
 * Books
 
-We also retrieve information about the relation between people and creative works. 
+and what people have been working on what creative works.
 
 The idea is to build a database that would allow us to find out people who have been working on different types of creative works, for instance to find out what actors also perform songs, are voice actors in animated movies and games, or write books.
 
 
+## RETRIEVING DATA
+
+Data is retrieved from wikidata. Alternatively, it is cached in the bucket 
+
 ## CREATE DATABASE AND TABLES
 
-To create the required tables in a Postgres database, execute the scripts `create_tables_staging.sql` and `create_tables_dwh.sql`
 
 ## PIPELINE
 
