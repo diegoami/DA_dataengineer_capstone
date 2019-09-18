@@ -52,7 +52,8 @@ class ETLProcessor:
             rel_data = try_read_data_from_json_file(file_output)
             print("Read locally from {}".format(file_output))
         if not rel_data and self.check_config('S3', 'READ_FROM_S3'):
-            rel_data = try_read_data_from_s3(bucket_name, base_name, file_output)
+            region_name = self.config['S3']['REGION_NAME']
+            rel_data = try_read_data_from_s3(bucket_name, base_name, file_output, region_name)
             print("Downloaded from s3://{}/{} to {}".format(bucket_name, base_name, file_output))
         if not rel_data:
             print("Executing query in Sparkql: {}".format(sparkl_query))

@@ -44,8 +44,8 @@ def try_read_data_from_json_file(file_output):
     return rel_data
 
 
-def try_read_data_from_s3(bucket_name, object_name, file_output):
-    s3_client = boto3.client('s3')
+def try_read_data_from_s3(bucket_name, object_name, file_output, region_name):
+    s3_client = boto3.client('s3', region_name=region_name)
     if not check_bucket(s3_client, bucket_name, object_name):
         print("s3://{}/{} does not exist, skipping".format(bucket_name, object_name))
         return None

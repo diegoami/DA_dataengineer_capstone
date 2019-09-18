@@ -73,6 +73,7 @@ all_test_count_tables = [("humans", 2000000), ("roles", 15), ("movies", 200000),
                          ("books", 90000), ("tvshows", 50000), ("videogames", 38000), ("animatedmovie_roles", 28000), ]
 
 def execute_counts(cur):
+    pass
 
 def execute_tests(cur):
     print("Executing tests on data...")
