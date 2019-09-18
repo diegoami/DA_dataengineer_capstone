@@ -1,0 +1,4 @@
+**/*.pyc
+wikimovies.cfg
+
+.idea/**
