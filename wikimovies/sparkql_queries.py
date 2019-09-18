@@ -86,7 +86,7 @@ animatedmovies_sparkql = """
 SELECT ?animatedMovie  ?animatedMovieLabel WHERE {
   ?animatedMovie wdt:P31/wdt:P279* wd:Q202866;
   SERVICE wikibase:label {
-     bd:serviceParam wikibase:language "en" .
+     bd:serviceParam wikibase:language [AUTO_LANGUAGE]"en" .
   }
 }
 """

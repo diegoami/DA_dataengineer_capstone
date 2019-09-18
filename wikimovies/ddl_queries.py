@@ -165,7 +165,8 @@ create_table_queries = [humans_create, staging_roles_create, staging_movies_crea
 drop_table_queries = [humans_drop, staging_roles_drop, staging_movies_drop, staging_tvshows_drop, staging_animatedmovies_drop, staging_songs_drop, staging_videogames_drop, staging_books_drop, staging_movie_roles_drop, staging_tvshow_roles_drop, staging_animatedmovie_roles_drop, staging_song_roles_drop, staging_videogame_roles_drop, staging_book_roles_drop, creative_works_drop, creative_works_participations]
 
 
-def create_database(cur, conn):
+def create_schema(cur, conn):
+	print("Creating schema....")
 	for drop_table_query in drop_table_queries:
 		cur.execute(drop_table_query)
 	for create_table_query in create_table_queries:
