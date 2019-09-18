@@ -51,7 +51,7 @@ class ETLProcessor:
         if self.check_config('ETL', 'READ_JSON_LOCAL'):
             rel_data = try_read_data_from_json_file(file_output)
             print("Read locally from {}".format(file_output))
-        elif self.check_config('S3', 'READ_FROM_S3'):
+        if not rel_data and self.check_config('S3', 'READ_FROM_S3'):
             rel_data = try_read_data_from_s3(bucket_name, base_name, file_output)
             print("Downloaded from s3://{}/{} to {}".format(bucket_name, base_name, file_output))
         if not rel_data:
