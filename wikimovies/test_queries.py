@@ -69,8 +69,15 @@ SELECT H.human_name,C.creative_work_name, C.creative_work_type, P.role_name FROM
 
 all_test_queries = [most_creative_works, partition_creative_works, all_works_from_celentano, all_works_from_ogg, all_works_from_villaggio, all_works_from_eddie_murphy]
 
+all_test_count_tables = [("humans", 2000000), ("roles", 15), ("movies", 200000), ("songs", 100000), ("animatedmovies", 6000),
+                         ("books", 90000), ("tvshows", 50000), ("videogames", 38000), ("animatedmovie_roles", 28000), ]
+
+def execute_counts(cur):
+
 def execute_tests(cur):
     print("Executing tests on data...")
+    execute_counts(cur)
+
     for query in all_test_queries:
         cur.execute(query)
         result = cur.fetchall()
