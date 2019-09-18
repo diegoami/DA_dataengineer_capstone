@@ -51,7 +51,7 @@ class ETLProcessor:
             data = r.json(strict=False)
 
             rel_data = [item for item in data['results']['bindings']]
-            if self.config['ETL']['WRITE_JSON']:
+            if self.config['ETL']['WRITE_JSON_LOCAL:wq']:
                 with open(file_output, 'w', encoding="utf-8") as fhandle:
                     print("Writing to {}".format(file_output))
                     json.dump(rel_data, fhandle)
