@@ -4,6 +4,7 @@ Usage:
   wikimovies_main.py do_all
   wikimovies_main.py create_tables
   wikimovies_main.py load_staging
+  wikimovies_main.py load_staging --skip_humans
   wikimovies_main.py load_dwh
   wikimovies_main.py load_all
   wikimovies_main.py test_tables
@@ -25,10 +26,11 @@ from wikimovies.ddl_queries import create_schema
 from wikimovies.test_queries import execute_tests
 
 
-def load_staging():
+def load_staging(arguments):
     print("Loading data into staging tables")
     data_processor = ETLProcessor(cur=cur, conn=conn, config=config)
-    data_processor.insert_humans_staging()
+    if not "--skip_humans" in arguments:
+        data_processor.insert_humans_staging()
     data_processor.insert_roles_staging()
     data_processor.insert_entities_staging()
     data_processor.insert_relations_staging()
@@ -52,7 +54,7 @@ if __name__ == "__main__":
     if arguments['create_tables'] or arguments['do_all']:
         create_schema(cur, conn)
     if arguments['load_staging'] or arguments['do_all'] or arguments['load_all']:
-        load_staging()
+        load_staging(arguments)
     if arguments['load_dwh'] or arguments['do_all'] or arguments['load_all']:
         load_dwh()
     if arguments['test_tables'] or arguments['do_all']:
