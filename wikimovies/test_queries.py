@@ -134,9 +134,9 @@ def execute_verify_creative_work_type(cur):
 def execute_tests(cur):
     print("Executing tests on data...")
     print("Executing test on tables size...")
-    #execute_counts(cur)
+    execute_counts(cur)
     print("Executing test on creative_work_type...")
-    #execute_verify_creative_work_type(cur)
+    execute_verify_creative_work_type(cur)
     print("Executing aggregation tests")
     execute_most_creative(cur)
 
