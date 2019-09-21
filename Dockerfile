@@ -38,8 +38,11 @@ ADD README.md .
 ADD wikimovies.cfg .
 ADD wikimovies_main.py .
 ADD wikimovies wikimovies
+ADD run.sh .
 
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+
+CMD ["/opt/run.sh"]
 
 
 
