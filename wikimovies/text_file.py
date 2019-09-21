@@ -1,4 +1,3 @@
-import csv
 import json
 import os
 import traceback
@@ -21,30 +20,33 @@ def check_bucket(s3, bucket_name, file_path):
     return True
 
 
-
-def export_to_csv(exp_data, exp_output, map_query_columns):
-    with open(exp_output, 'w', encoding="utf-8") as ehandle:
-        print("Writing to {}".format(exp_output))
-        f = csv.writer(ehandle)
-        f.writerow(map_query_columns.values())
-        for item in exp_data:
-            f.writerow(item.values())
-
-
-def try_read_data_from_json_file(file_output):
+def try_read_data_from_json_file(file_name):
+    """
+    tries to retrieve data from wikipedia cached locally in a json file
+    :param file_name: the name of the file containing data
+    :return: data retrieved from file
+    """
     rel_data = None
-    if os.path.isfile(file_output):
-        print("Reading data from file {}".format(file_output))
-        with open(file_output, 'r', encoding="utf-8") as fhandle:
+    if os.path.isfile(file_name):
+        print("Reading data from file {}".format(file_name))
+        with open(file_name, 'r', encoding="utf-8") as fhandle:
             try:
                 rel_data = json.load(fhandle)
             except ValueError as ve:
-                print("Could not read data from file {}".format(file_output))
+                print("Could not read data from file {}".format(file_name))
                 traceback.print_exc(ve)
     return rel_data
 
 
 def try_read_data_from_s3(bucket_name, object_name, file_output, region_name):
+    """
+    tries to retrieve data from a S3 bucket
+    :param bucket_name: name of the bucket to retrieve data from
+    :param object_name: object in the S3 bucket to retrieve data from
+    :param file_output: the local file to download data into
+    :param region_name: the region where the file is located
+    :return: the data contained in the file
+    """
     s3_client = boto3.client('s3', region_name=region_name)
     if not check_bucket(s3_client, bucket_name, object_name):
         print("s3://{}/{} does not exist, skipping".format(bucket_name, object_name))
@@ -54,6 +56,13 @@ def try_read_data_from_s3(bucket_name, object_name, file_output, region_name):
 
 
 def save_to_s3(bucket, file_name, object_name):
+    """
+    tries and save file to S3
+    :param bucket: the bucket to save the file into
+    :param file_name: the name of the file to save data into
+    :param object_name:
+    :return: the response from the upload file execution
+    """
     s3_client = boto3.client('s3')
     response = s3_client.upload_file(file_name, bucket, object_name)
     return response

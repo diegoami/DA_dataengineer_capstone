@@ -1,100 +1,96 @@
+from collections import OrderedDict
 
-
-insert_occupation =  """
-INSERT INTO public.occupations (
-	occupation_id,
-	occupation_name
-) VALUES (%s, %s) ON CONFLICT (occupation_id) DO NOTHING;
-"""
-
-insert_occupation_columns = ["occupation", "occupationLabel"]
-map_occupation_columns = {"occupation": "occupation_id", "occupationLabel": "occupation_name"}
-
-
-insert_role =  """
+# Sql Query to insert a role
+INSERT_ROLE_SQL_QUERY = """
 INSERT INTO public.roles (
 	role_id,
 	role_name
 ) VALUES (%s, %s) ON CONFLICT (role_id) DO NOTHING;
 """
 
-insert_role_columns = ["role", "realroleLabel"]
-map_role_columns = {"role": "role_id", "realroleLabel": "role_name" }
+# maps between columns in Sparql and columns in insert role SQL query
+INSERT_ROLE_MAP_COLUMNS = OrderedDict({"role": "role_id", "realroleLabel": "role_name"})
 
-insert_human = """
+# Sql Query to insert a person
+INSERT_HUMAN_SQL_QUERY = """
 INSERT INTO public.humans (
 	human_id,
 	human_name
 ) VALUES (%s, %s) ON CONFLICT (human_id) DO NOTHING;
 """
 
-insert_human_columns = ["human", "humanLabel"]
-map_human_columns = {"human": "human_id", "humanLabel": "human_name"}
+# maps between columns in Sparql and columns in insert human SQL query
+INSERT_HUMAN_MAP_COLUMNS = OrderedDict({"human": "human_id", "humanLabel": "human_name"})
 
-insert_movie = """
+# Sql Query to insert a movie
+INSERT_MOVIE_SQL_QUERY = """
 INSERT INTO public.movies (
 	movie_id,
 	movie_name
 ) VALUES (%s, %s) ON CONFLICT (movie_id) DO NOTHING;
 """
 
-insert_movie_columns = ["film", "filmLabel"]
-map_movie_columns = {"film": "movie_id", "filmLabel": "movie_name"}
+# maps between columns in Sparql and columns in insert movie SQL query
+INSERT_MOVIE_MAP_COLUMNS = OrderedDict({"film": "movie_id", "filmLabel": "movie_name"})
 
-
-insert_tvshow = """
+# Sql Query to insert a tv show
+INSERT_TVSHOW_SQL_QUERY = """
 INSERT INTO public.tvshows (
 	tvshow_id,
 	tvshow_name
 ) VALUES (%s, %s) ON CONFLICT (tvshow_id) DO NOTHING;
 """
 
-insert_tvshow_columns = ["tvShow", "tvShowLabel"]
-map_tvshow_columns = {"tvShow": "tvshow_id", "tvShowLabel": "tvshow_name"}
+# maps between columns in Sparql and columns in insert tv show SQL query
+INSERT_TVSHOW_MAP_COLUMNS = OrderedDict({"tvShow": "tvshow_id", "tvShowLabel": "tvshow_name"})
 
-insert_animatedmovie = """
+
+# Sql Query to insert an animated movie
+INSERT_ANIMATEDMOVIE_SQL_QUERY = """
 INSERT INTO public.animatedmovies (
 	animatedmovie_id,
 	animatedmovie_name
 ) VALUES (%s, %s) ON CONFLICT (animatedmovie_id) DO NOTHING;
 """
 
-insert_animatedmovie_columns = ["animatedMovie", "animatedMovieLabel"]
-map_animatedmovie_columns = {"animatedMovie": "animatedmovie_id", "animatedMovieLabel": "animatedmovie_name"}
+# maps between columns in Sparql and columns in insert animated movie SQL query
+INSERT_ANIMATEDMOVIE_MAP_COLUMNS = OrderedDict({"animatedMovie": "animatedmovie_id", "animatedMovieLabel": "animatedmovie_name"})
 
-
-insert_song = """
+# Sql Query to insert a song
+INSERT_SONG_SQL_QUERY = """
 INSERT INTO public.songs (
 	song_id,
 	song_name
 ) VALUES (%s, %s) ON CONFLICT (song_id) DO NOTHING;
 """
 
-insert_song_columns = ["song", "songLabel"]
-map_song_columns = {"song": "song_id", "songLabel": "song_name"}
+# maps between columns in Sparql and columns in insert song SQL query
+INSERT_SONG_MAP_COLUMNS = OrderedDict({"song": "song_id", "songLabel": "song_name"})
 
-insert_videogame = """
+# Sql Query to insert a video game
+INSERT_VIDEOGAME_SQL_QUERY = """
 INSERT INTO public.videogames (
 	videogame_id,
 	videogame_name
 ) VALUES (%s, %s) ON CONFLICT (videogame_id) DO NOTHING;
 """
 
-insert_videogame_columns = ["videogame", "videogameLabel"]
-map_videogame_columns = {"videogame": "videogame_id", "videogameLabel": "videogame_name"}
+# maps between columns in Sparql and columns in insert video game SQL query
+INSERT_VIDEOGAME_MAP_COLUMNS = OrderedDict({"videogame": "videogame_id", "videogameLabel": "videogame_name"})
 
-insert_book = """
+# Sql Query to insert a book
+INSERT_BOOK_SQL_QUERY = """
 INSERT INTO public.books (
 	book_id,
 	book_name
 ) VALUES (%s, %s) ON CONFLICT (book_id) DO NOTHING;
 """
 
-insert_book_columns = ["book", "bookLabel"]
-map_book_columns = {"book": "book_id", "bookLabel": "book_name"}
+# maps between columns in Sparql and columns in insert book SQL query
+INSERT_BOOK_MAP_COLUMNS = OrderedDict({"book": "book_id", "bookLabel": "book_name"})
 
-
-insert_movie_role = """
+# Sql Query to insert a movie role of some human
+INSERT_MOVIE_ROLE_SQL_QUERY = """
 INSERT INTO public.movie_roles (
 	movie_id,
 	role_id,
@@ -102,11 +98,11 @@ INSERT INTO public.movie_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (movie_id, role_id, human_id) DO NOTHING;
 """
 
-insert_movie_role_columns = ["film", "role", "person"]
-map_movie_role_columns = {"film": "movie_id", "role": "role_id", "person": "human_id"}
+# maps between columns in Sparql and columns in insert movie role SQL query
+INSERT_MOVIE_ROLE_MAP_COLUMNS = OrderedDict({"film": "movie_id", "role": "role_id", "person": "human_id"})
 
-
-insert_tvshow_role = """
+# Sql Query to insert a tv role of some human
+INSERT_TVSHOW_ROLE_SQL_QUERY = """
 INSERT INTO public.tvshow_roles (
 	tvshow_id,
 	role_id,
@@ -114,11 +110,11 @@ INSERT INTO public.tvshow_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (tvshow_id, role_id, human_id) DO NOTHING;
 """
 
-insert_tvshow_role_columns = ["tvShow", "role", "person"]
-map_tvshow_role_columns = {"tvShow": "tvshow_id", "role": "role_id", "person": "human_id"}
+# maps between columns in Sparql and columns in insert tvshow role SQL query
+INSERT_TVSHOW_ROLE_MAP_COLUMNS = OrderedDict({"tvShow": "tvshow_id", "role": "role_id", "person": "human_id"})
 
-
-insert_animatedmovie_role = """
+# Sql Query to insert an animated movie role of some human
+INSERT_ANIMATEDMOVIE_ROLE_SQL_QUERY = """
 INSERT INTO public.animatedmovie_roles (
 	animatedmovie_id,
 	role_id,
@@ -126,11 +122,11 @@ INSERT INTO public.animatedmovie_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (animatedmovie_id, role_id, human_id) DO NOTHING;
 """
 
-insert_animatedmovie_role_columns = ["animatedMovie", "role", "person"]
-map_animatedmovie_role_columns = {"animatedMovie": "animatedmovie_id", "role": "role_id", "person": "human_id"}
+# maps between columns in Sparql and columns in insert animated movie role SQL query
+INSERT_ANIMATEDMOVIE_ROLE_MAP_COLUMNS = OrderedDict({"animatedMovie": "animatedmovie_id", "role": "role_id", "person": "human_id"})
 
-
-insert_song_role = """
+# Sql Query to insert a role in a song of some human
+INSERT_SONG_ROLE_SQL_QUERY = """
 INSERT INTO public.song_roles (
 	song_id,
 	role_id,
@@ -138,10 +134,11 @@ INSERT INTO public.song_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (song_id, role_id, human_id) DO NOTHING;
 """
 
-insert_song_role_columns = ["song", "role", "person"]
-map_song_role_columns = {"song": "song_id", "role": "role_id", "person": "human_id"}
+# maps between columns in Sparql and columns in insert song role SQL query
+INSERT_SONG_ROLE_MAP_COLUMNS = OrderedDict({"song": "song_id", "role": "role_id", "person": "human_id"})
 
-insert_videogame_role = """
+# Sql Query to insert a role in a videogame of some human
+INSERT_VIDEOGAME_ROLE_SQL_QUERY = """
 INSERT INTO public.videogame_roles (
 	videogame_id,
 	role_id,
@@ -149,11 +146,11 @@ INSERT INTO public.videogame_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (videogame_id, role_id, human_id) DO NOTHING;
 """
 
-insert_videogame_role_columns = ["videogame", "role", "person"]
-map_videogame_role_columns = {"videogame": "videogame_id", "role": "role_id", "person": "human_id"}
+# maps between columns in Sparql and columns in insert video game role SQL query
+INSERT_VIDEOGAME_ROLE_MAP_COLUMNS = OrderedDict({"videogame": "videogame_id", "role": "role_id", "person": "human_id"})
 
-
-insert_book_role = """
+# Sql Query to insert a role in a book of some human
+INSERT_BOOK_ROLE_SQL_QUERY = """
 INSERT INTO public.book_roles (
 	book_id,
 	role_id,
@@ -161,5 +158,5 @@ INSERT INTO public.book_roles (
 ) VALUES (%s, %s, %s) ON CONFLICT (book_id, role_id, human_id) DO NOTHING;
 """
 
-insert_book_role_columns = ["book", "role", "person"]
-map_book_role_columns = {"book": "book_id", "role": "role_id", "person": "human_id"}
+# maps between columns in Sparql and columns in insert book role SQL query
+INSERT_BOOk_ROLE_SQL_QUERY = OrderedDict({"book": "book_id", "role": "role_id", "person": "human_id"})

@@ -1,7 +1,7 @@
 
 
-
-insert_creative_works = """
+# query to insert all creative works in the DWH table
+INSERT_CREATIVE_WORKS_SQL_QUERY = """
 INSERT INTO public.creative_works (
 	creative_work_id,
 	creative_work_name,
@@ -21,8 +21,8 @@ SELECT DISTINCT book_id, book_name, 'BOOK' AS creative_work_type FROM books
 ON CONFLICT (creative_work_id) DO NOTHING;
 """
 
-
-insert_participations = """
+# query to insert all participations in creative works in the DWH table
+INSERT_PARTICIPATIONS_SQL_QUERY = """
 INSERT INTO public.participations (
 	creative_work_id,
 	human_id,

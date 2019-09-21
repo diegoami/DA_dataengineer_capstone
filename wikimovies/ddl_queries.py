@@ -1,13 +1,20 @@
+"""
+
+Make sure an user has been created first
+
+From Bash:
+	su - postgres
+	createuser --interactive wikidata
+	Shall the new role be a superuser? (y/n) y
+
+From psql:
+	# ALTER USER wikidata WITH PASSWORD 'wikidata';
+	# CREATE DATABASE wikidata;
+	# COMMIT
+	# FLUSH PRIVILEGES
+"""
 
 
-# su - postgres
-# createuser --interactive wikidata
-# Shall the new role be a superuser? (y/n) y
-
-# ALTER USER wikidata WITH PASSWORD 'wikidata';
-# CREATE DATABASE wikidata;
-# COMMIT
-# FLUSH PRIVILEGES
 
 humans_drop = "DROP TABLE IF EXISTS humans;"
 staging_roles_drop = "DROP TABLE IF EXISTS roles;"

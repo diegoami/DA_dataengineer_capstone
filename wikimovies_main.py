@@ -4,7 +4,6 @@ Usage:
   wikimovies_main.py do_all
   wikimovies_main.py create_tables
   wikimovies_main.py load_staging
-  wikimovies_main.py load_staging --skip_humans
   wikimovies_main.py load_dwh
   wikimovies_main.py load_all
   wikimovies_main.py test_tables
@@ -21,25 +20,25 @@ from docopt import docopt
 import psycopg2
 import configparser
 
-from wikimovies.etl import ETLProcessor
+from wikimovies.etl import ELTProcessor
 from wikimovies.ddl_queries import create_schema
 from wikimovies.test_queries import execute_tests
 
 
 def load_staging(arguments):
     print("Loading data into staging tables")
-    data_processor = ETLProcessor(cur=cur, conn=conn, config=config)
-    if not "--skip_humans" in arguments:
-        data_processor.insert_humans_staging()
-    data_processor.insert_roles_staging()
+
+    data_processor = ELTProcessor(cur=cur, conn=conn, config=config)
     data_processor.insert_entities_staging()
+    data_processor.insert_humans_staging()
+    data_processor.insert_roles_staging()
     data_processor.insert_relations_staging()
 
 
 def load_dwh():
     print("Loading data into DWH tables")
-    data_processor = ETLProcessor(cur=cur, conn=conn, config=config)
-    data_processor.load_tables()
+    data_processor = ELTProcessor(cur=cur, conn=conn, config=config)
+    data_processor.load_dwh_tables()
 
 
 if __name__ == "__main__":
