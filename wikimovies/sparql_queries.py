@@ -110,11 +110,11 @@ MOVIE_ROLES_BY_YEAR_SPARQL_QUERY = """
 """
 
 # Sparql query to retrieve tv shows from wikidata and their name in English
-TVSHOWS_BY_YEAR_SPARQL_QUERY = """
+TVSHOWS_SPARQL_QUERY = """
     SELECT ?tvShow  ?tvShowLabel WHERE {{
       ?tvShow wdt:P31 wd:Q5398426;
           wdt:P577 ?publicationDate .
-          FILTER (?publicationDate >="{}-01-01"^^xsd:dateTime && ?publicationDate < "{}-01-01"^^xsd:dateTime) .
+          
       SERVICE wikibase:label {{
          bd:serviceParam wikibase:language "en" .
       }}
@@ -122,22 +122,20 @@ TVSHOWS_BY_YEAR_SPARQL_QUERY = """
 """
 
 # Sparql query to retrieve the relation between tv shows and people who participated in them in any role
-TVSHOW_ROLES_BY_YEAR_SPARQL_QUERY = """
+TVSHOW_ROLES_SPARQL_QUERY = """
 SELECT ?tvShow  ?role  ?person  WHERE {{
    ?tvShow wdt:P31 wd:Q5398426;
     wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person ;
-    wdt:P577 ?publicationDate .
-    FILTER (?publicationDate >="{}-01-01"^^xsd:dateTime && ?publicationDate < "{}-01-01"^^xsd:dateTime) .
+    
   ?tvShow ?role ?person
  }}
 """
 
 # Sparql query to retrieve animated movies from wikidata and their name in English
-ANIMATEDMOVIES_BY_YEAR_SPARQL_QUERY = """
+ANIMATEDMOVIES_SPARQL_QUERY = """
 SELECT ?animatedMovie  ?animatedMovieLabel WHERE {{
   ?animatedMovie wdt:P31/wdt:P279* wd:Q202866;
         wdt:P577 ?publicationDate .
-  FILTER (?publicationDate >="{}-01-01"^^xsd:dateTime && ?publicationDate < "{}-01-01"^^xsd:dateTime) .      
   SERVICE wikibase:label {{
      bd:serviceParam wikibase:language "en" .
   }}
@@ -145,13 +143,12 @@ SELECT ?animatedMovie  ?animatedMovieLabel WHERE {{
 """
 
 # Sparql query to retrieve the relation between animated movies and people who participated in them in any role
-ANIMATEDMOVIE_ROLES_BY_YEAR_SPARQL_QUERY = """
+ANIMATEDMOVIE_ROLES_SPARQL_QUERY = """
 SELECT ?animatedMovie  ?role  ?person  WHERE {{
    ?animatedMovie wdt:P31/wdt:P279* wd:Q202866;
   
     wdt:P57|wdt:P58|wdt:P86|wdt:P161|wdt:P162|wdt:P170|wdt:P175|wdt:P344|wdt:P725|wdt:P1040|wdt:P1431|wdt:P2515|wdt:p2554|wdt:P14318  ?person ;
     wdt:P577 ?publicationDate .
-    FILTER (?publicationDate >="{}-01-01"^^xsd:dateTime && ?publicationDate < "{}-01-01"^^xsd:dateTime) .
   ?animatedMovie  ?role ?person
   
 }}  

@@ -10,7 +10,7 @@ from http.client import IncompleteRead
 from wikimovies.sparql_queries import *
 from wikimovies.staging_queries import *
 from wikimovies import dwh_queries
-from wikimovies.text_file import try_read_data_from_json_file, save_to_s3, try_read_data_from_s3
+from wikimovies.util import try_read_data_from_json_file, save_to_s3, try_read_data_from_s3, check_config
 
 
 # URL of the Wikidata endpoint accepting queries in Sparql
@@ -63,15 +63,6 @@ class ELTProcessor:
 
 
 
-    def check_config(self, section, key):
-        """
-        true if a key in the config file has value True or Yes
-        :param section: section in the config file
-        :param key: key in the config file
-        :return:
-        """
-        value = self.config[section][key]
-        return value.lower() == 'yes' or value.lower() == 'true'
 
 
     def load_wikidata(self, table_name, sparql_query, insert_query,
@@ -95,13 +86,13 @@ class ELTProcessor:
         file_output = os.path.join(self.cache_dir, base_name)
         result_data = None
 
-        if self.check_config('ETL', 'READ_JSON_LOCAL'):
+        if check_config(self.config, 'ETL', 'READ_JSON_LOCAL'):
             print("Trying to Read locally from {}".format(file_output))
             result_data = try_read_data_from_json_file(file_output)
             if result_data is None:
                 print("Could not read from {}".format(file_output))
 
-        if result_data is None and self.check_config('S3', 'READ_FROM_S3'):
+        if result_data is None and check_config(self.config, 'S3', 'READ_FROM_S3'):
             region_name = self.config['S3']['REGION_NAME']
             bucket_name = self.config['S3']['BUCKET_NAME']
             result_data = try_read_data_from_s3(bucket_name, base_name, file_output, region_name)
@@ -128,7 +119,7 @@ class ELTProcessor:
                                 print("Retrying query...")
                                 continue
                             result_data = [item for item in data['results']['bindings']]
-                            if self.check_config('ETL', 'WRITE_JSON_LOCAL'):
+                            if check_config(self.config, 'ETL', 'WRITE_JSON_LOCAL'):
                                 with open(file_output, 'w', encoding="utf-8") as fhandle:
                                     print("Writing to {}".format(file_output))
                                     json.dump(result_data, fhandle)
@@ -153,7 +144,7 @@ class ELTProcessor:
             if tries >= NUM_TRIES:
                 print("Wikidata not reachable - exiting")
                 sys.exit(1)
-        if self.check_config('S3', 'WRITE_TO_S3') and os.path.isfile(file_output):
+        if check_config(self.config, 'S3', 'WRITE_TO_S3') and os.path.isfile(file_output):
             bucket_name = self.config['S3']['BUCKET_NAME']
             print("Saving to S3: {}/{}".format(bucket_name, base_name))
             save_to_s3(bucket_name, file_output, base_name)
@@ -195,10 +186,12 @@ class ELTProcessor:
 
        for year in range(START_YEAR_CREATIVE_WORKS, CURRENT_YEAR, YEARS_RANGE):
             self.load_wikidata("movie_roles", MOVIE_ROLES_BY_YEAR_SPARQL_QUERY, INSERT_MOVIE_ROLE_SQL_QUERY, INSERT_MOVIE_ROLE_MAP_COLUMNS, year, YEARS_RANGE)
-            self.load_wikidata("tvshow_roles", TVSHOW_ROLES_BY_YEAR_SPARQL_QUERY, INSERT_TVSHOW_ROLE_SQL_QUERY, INSERT_TVSHOW_ROLE_MAP_COLUMNS, year, YEARS_RANGE)
-            self.load_wikidata("animatedmovie_roles", ANIMATEDMOVIE_ROLES_BY_YEAR_SPARQL_QUERY, INSERT_ANIMATEDMOVIE_ROLE_SQL_QUERY, INSERT_ANIMATEDMOVIE_ROLE_MAP_COLUMNS, year, YEARS_RANGE)
-            self.load_wikidata("song_roles", SONG_ROLES_BY_YEAR_SPARQL_QUERY, INSERT_SONG_ROLE_SQL_QUERY, INSERT_SONG_ROLE_MAP_COLUMNS, year, YEARS_RANGE, True)
 
+            self.load_wikidata("song_roles", SONG_ROLES_BY_YEAR_SPARQL_QUERY, INSERT_SONG_ROLE_SQL_QUERY, INSERT_SONG_ROLE_MAP_COLUMNS, year, YEARS_RANGE, True)
+       self.load_wikidata("tvshow_roles", TVSHOW_ROLES_SPARQL_QUERY, INSERT_TVSHOW_ROLE_SQL_QUERY,
+                          INSERT_TVSHOW_ROLE_MAP_COLUMNS)
+       self.load_wikidata("animatedmovie_roles", ANIMATEDMOVIE_ROLES_SPARQL_QUERY, INSERT_ANIMATEDMOVIE_ROLE_SQL_QUERY,
+                          INSERT_ANIMATEDMOVIE_ROLE_MAP_COLUMNS)
        self.load_wikidata("videogame_roles", VIDEOGAME_ROLES_SPARQL_QUERY, INSERT_VIDEOGAME_ROLE_SQL_QUERY, INSERT_VIDEOGAME_ROLE_MAP_COLUMNS)
        self.load_wikidata("book_roles", BOOK_ROLES_SPARQL_QUERY, INSERT_BOOK_ROLE_SQL_QUERY, INSERT_BOOk_ROLE_SQL_QUERY)
 
@@ -210,9 +203,11 @@ class ELTProcessor:
 
         for year in range(1900, CURRENT_YEAR, YEARS_RANGE):
             self.load_wikidata("movies", MOVIES_BY_YEAR_SPARQL_QUERY, INSERT_MOVIE_SQL_QUERY, INSERT_MOVIE_MAP_COLUMNS, year, YEARS_RANGE)
-            self.load_wikidata("tvshows", TVSHOWS_BY_YEAR_SPARQL_QUERY, INSERT_TVSHOW_SQL_QUERY, INSERT_TVSHOW_MAP_COLUMNS, year, YEARS_RANGE)
-            self.load_wikidata("animatedmovies", ANIMATEDMOVIES_BY_YEAR_SPARQL_QUERY, INSERT_ANIMATEDMOVIE_SQL_QUERY, INSERT_ANIMATEDMOVIE_MAP_COLUMNS, year, YEARS_RANGE)
+
             self.load_wikidata("songs", SONGS_BY_YEAR_SPARQL_QUERY, INSERT_SONG_SQL_QUERY, INSERT_SONG_MAP_COLUMNS, year, YEARS_RANGE, True)
+        self.load_wikidata("tvshows", TVSHOWS_SPARQL_QUERY, INSERT_TVSHOW_SQL_QUERY, INSERT_TVSHOW_MAP_COLUMNS)
+        self.load_wikidata("animatedmovies", ANIMATEDMOVIES_SPARQL_QUERY, INSERT_ANIMATEDMOVIE_SQL_QUERY,
+                           INSERT_ANIMATEDMOVIE_MAP_COLUMNS)
         self.load_wikidata("videogames", VIDEOGAMES_SPARQL_QUERY, INSERT_VIDEOGAME_SQL_QUERY, INSERT_VIDEOGAME_MAP_COLUMNS)
         self.load_wikidata("books", BOOKS_SPARQL_QUERY, INSERT_BOOK_SQL_QUERY, INSERT_BOOK_MAP_COLUMNS)
 
