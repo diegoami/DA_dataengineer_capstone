@@ -82,9 +82,9 @@ ALL_TEST_COUNT_TABLES = [("humans", 1500000),
                          ("book_roles", 60000),
                          ("movie_roles", 1400000),
                          ("song_roles", 120000),
-                         ("tvshow_roles", 90000),
+                         ("tvshow_roles", 40000),
                          ("videogame_roles", 2000),
-                         ("creative_works", 500000),
+                         ("creative_works", 450000),
                          ("participations", 1500000)]
 
 
