@@ -5,7 +5,8 @@ INSERT_ROLE_SQL_QUERY = """
 INSERT INTO public.roles (
 	role_id,
 	role_name
-) VALUES (%s, %s) ON CONFLICT (role_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (role_id) DO UPDATE
+SET role_name = EXCLUDED.role_name;
 """
 
 # maps between columns in Sparql and columns in insert role SQL query
@@ -16,7 +17,8 @@ INSERT_HUMAN_SQL_QUERY = """
 INSERT INTO public.humans (
 	human_id,
 	human_name
-) VALUES (%s, %s) ON CONFLICT (human_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (human_id) DO UPDATE
+SET human_name = EXCLUDED.human_name;
 """
 
 # maps between columns in Sparql and columns in insert human SQL query
@@ -27,7 +29,8 @@ INSERT_MOVIE_SQL_QUERY = """
 INSERT INTO public.movies (
 	movie_id,
 	movie_name
-) VALUES (%s, %s) ON CONFLICT (movie_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (movie_id) DO UPDATE
+SET movie_name = EXCLUDED.movie_name;
 """
 
 # maps between columns in Sparql and columns in insert movie SQL query
@@ -38,7 +41,8 @@ INSERT_TVSHOW_SQL_QUERY = """
 INSERT INTO public.tvshows (
 	tvshow_id,
 	tvshow_name
-) VALUES (%s, %s) ON CONFLICT (tvshow_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (tvshow_id) DO UPDATE
+SET tvshow_name = EXCLUDED.tvshow_name;
 """
 
 # maps between columns in Sparql and columns in insert tv show SQL query
@@ -50,7 +54,8 @@ INSERT_ANIMATEDMOVIE_SQL_QUERY = """
 INSERT INTO public.animatedmovies (
 	animatedmovie_id,
 	animatedmovie_name
-) VALUES (%s, %s) ON CONFLICT (animatedmovie_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (animatedmovie_id) DO UPDATE
+SET animatedmovie_name = EXCLUDED.animatedmovie_name;
 """
 
 # maps between columns in Sparql and columns in insert animated movie SQL query
@@ -61,7 +66,8 @@ INSERT_SONG_SQL_QUERY = """
 INSERT INTO public.songs (
 	song_id,
 	song_name
-) VALUES (%s, %s) ON CONFLICT (song_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (song_id) DO UPDATE
+SET song_name = EXCLUDED.song_name;
 """
 
 # maps between columns in Sparql and columns in insert song SQL query
@@ -72,7 +78,8 @@ INSERT_VIDEOGAME_SQL_QUERY = """
 INSERT INTO public.videogames (
 	videogame_id,
 	videogame_name
-) VALUES (%s, %s) ON CONFLICT (videogame_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT(videogame_id) DO UPDATE
+SET videogame_name = EXCLUDED.videogame_name;
 """
 
 # maps between columns in Sparql and columns in insert video game SQL query
@@ -83,7 +90,8 @@ INSERT_BOOK_SQL_QUERY = """
 INSERT INTO public.books (
 	book_id,
 	book_name
-) VALUES (%s, %s) ON CONFLICT (book_id) DO NOTHING;
+) VALUES (%s, %s) ON CONFLICT (book_id) DO UPDATE
+SET book_name = EXCLUDED.book_name;
 """
 
 # maps between columns in Sparql and columns in insert book SQL query

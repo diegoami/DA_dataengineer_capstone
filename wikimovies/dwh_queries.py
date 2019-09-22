@@ -7,17 +7,17 @@ INSERT INTO public.creative_works (
 	creative_work_name,
 	creative_work_type
 )
-SELECT DISTINCT movie_id, movie_name, 'MOVIE' AS creative_work_type FROM movies
+SELECT DISTINCT movie_id as id, movie_name as name, 'MOVIE' AS work_type FROM movies
 UNION
-SELECT DISTINCT tvshow_id, tvshow_name, 'TVSHOW' AS creative_work_type   FROM tvshows
+SELECT DISTINCT tvshow_id as id, tvshow_name, 'TVSHOW' AS work_type    FROM tvshows
 UNION
-SELECT DISTINCT animatedmovie_id, animatedmovie_name, 'ANIMATEDMOVIE' AS creative_work_type FROM animatedmovies
+SELECT DISTINCT animatedmovie_id as id, animatedmovie_name as name, 'ANIMATEDMOVIE' AS work_type FROM animatedmovies
 UNION
-SELECT DISTINCT videogame_id, videogame_name, 'VIDEOGAME' AS creative_work_type FROM videogames
+SELECT DISTINCT videogame_id as id, videogame_name as name, 'VIDEOGAME' AS work_type  FROM videogames
 UNION
-SELECT DISTINCT song_id, song_name, 'SONG' AS creative_work_type FROM songs
+SELECT DISTINCT song_id as id, song_name as name, 'SONG' AS work_type  FROM songs
 UNION
-SELECT DISTINCT book_id, book_name, 'BOOK' AS creative_work_type FROM books
+SELECT DISTINCT book_id as id, book_name as name, 'BOOK' AS work_type  FROM books
 ON CONFLICT (creative_work_id) DO NOTHING;
 """
 
