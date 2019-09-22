@@ -16,7 +16,7 @@ Options:
 
 """
 from docopt import docopt
-
+import os
 import psycopg2
 import configparser
 
@@ -48,6 +48,12 @@ if __name__ == "__main__":
     config.read('wikimovies.cfg')
 
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['DB'].values()))
+    if 'AWS' in config:
+        if 'AWS_ACCESS_KEY_ID' in config['AWS']:
+            os.environ['AWS_ACCESS_KEY_ID'] = config['AWS']['AWS_ACCESS_KEY_ID']
+        if 'AWS_SECRET_ACCESS_KEY' in config['AWS']:
+            os.environ['AWS_ACCESS_KEY_ID'] = config['AWS']['AWS_SECRET_ACCESS_KEY']
+
     cur = conn.cursor()
 
     if arguments['create_tables'] or arguments['do_all']:
