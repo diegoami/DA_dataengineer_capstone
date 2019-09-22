@@ -5,6 +5,17 @@ import boto3
 from botocore.errorfactory import ClientError
 
 
+def check_config(config, section, key):
+    """
+    true if a key in the config file has value True or Yes
+    :param section: section in the config file
+    :param key: key in the config file
+    :return:
+    """
+    value = config[section][key]
+    return value.lower() == 'yes' or value.lower() == 'true'
+
+
 def check_bucket(s3, bucket_name, file_path):
     """
     check the existence of a s3 file
