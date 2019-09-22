@@ -13,7 +13,7 @@ from wikimovies import dwh_queries
 from wikimovies.text_file import try_read_data_from_json_file, save_to_s3, try_read_data_from_s3
 
 
-# URL of the Wikidata endpoint accepting queris in Sparql
+# URL of the Wikidata endpoint accepting queries in Sparql
 WIKIDATA_URL = 'https://query.wikidata.org/sparql'
 
 # The year we start retrieve humans from
